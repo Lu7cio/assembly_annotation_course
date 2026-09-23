@@ -1,23 +1,25 @@
 #!/usr/bin/env bash
 
 #SBATCH --cpus-per-task=2
-#SBATCH --mem-per-cpu=2000M
+#SBATCH --mem-per-cpu=4G
 #SBATCH --time=02:00:00
 #SBATCH --partition=pshort_el8
 #SBATCH --job-name=fastqc_analysis
-#SBATCH --output=/data/users/mkummer/assembly_annotation_course/logs/fastqc/RNAseq_Sha/fastqc_analysis_quality_check_%j.o
-#SBATCH --error=/data/users/mkummer/assembly_annotation_course/logs/fastqc/RNAseq_Sha/fastqc_analysis_error_%j.e
+#SBATCH --mail-user=mario.kummer@students.unibe.ch
+#SBATCH --mail-type=BEGIN,END
+#SBATCH --output=/data/users/mkummer/assembly_annotation_course/logs/fastqc/trimmed/RNAseq_Sha/fastqc_analysis_quality_check_%j.o
+#SBATCH --error=/data/users/mkummer/assembly_annotation_course/logs/fastqc/trimmed/RNAseq_Sha/fastqc_analysis_error_%j.e
 
 
 #Define raw data path, container path and output directory
-READS_DIR="/data/users/mkummer/assembly_annotation_course/input/RNAseq_Sha"
-RESULTS_DIR="/data/users/mkummer/assembly_annotation_course/output/fastqc/RNAseq_Sha"
+READS_DIR="/data/users/mkummer/assembly_annotation_course/output/fastp/RNAseq_Sha"
+RESULTS_DIR="/data/users/mkummer/assembly_annotation_course/output/fastqc_trimmed/RNAseq_Sha"
 SIF_PATH="/containers/apptainer/fastqc-0.12.1.sif"
 
 #Ensure output directory exists
 mkdir -p "$RESULTS_DIR"
 
-#Run FastQC on each FASTQ file in the directory
+#Run FastQC on each trimmed FASTQ file in the directory
 for FASTQ_FILE in "$READS_DIR"/*.fastq*; do
   if [ -f "$FASTQ_FILE" ]; then
     echo "Processing $FASTQ_FILE..."
@@ -28,6 +30,5 @@ for FASTQ_FILE in "$READS_DIR"/*.fastq*; do
       "$SIF_PATH" fastqc -t 2 -o "$RESULTS_DIR" "$FASTQ_FILE"
   fi
 done
-
 
 
