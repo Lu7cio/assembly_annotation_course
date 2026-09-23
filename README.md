@@ -114,7 +114,7 @@ scripts/
 ├── 04a_jellyfish_k-mer.sh                 # Script for
 ├── 05a_flye_assembly.sh                   # Script for
 ├── 05a_hifiasm_assembly.sh                # Script for
-├── 05a_LJA_assembly.sh                    # Script for                        
+├── 05a_LJA_assembly.sh                    # Script for                     
 ├── 05a_trinity_assembly.sh                # Script for
 ├──
 ├──
