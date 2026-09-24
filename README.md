@@ -25,16 +25,25 @@ All analyses were performed using fixed software versions. See below for full ve
 | hifiasm                    | 0.25.0  |
 | LJA                        | 0.2     |
 | trinity                    | 2.15.2  |
-  
+| busco                      | 5.7.1   |
+| merqury                    | 1.3     |
+| QUAST                      | 5.2.0   |
+| nucmer                     |         |
+| mummer                     |         |
 ## Workflow of analysis:
 
 ### Workflow steps Summary:
 For running the bash scripts on the HPC cluster (With SLURM) the command ```bash sbatch my_script.sh```  followed by the name of the desired script was used.
-    1. FastQC quality control on raw reads for genomic data for Etna-2 (Pacbio HiFi long reads) and for transcriptomic data (Illumina paired end short reads)
-    2. Optional: FastP trimming only for transcriptomic data (Illumina paired end short reads) and not for genomic data for Etna-2 (Pacbio HiFi long reads) 
-    3. Optional: FastQC on trimmed Reads only for transcriptomic data (Illumina paired end short reads) and not for genomic data for Etna-2 (Pacbio HiFi long reads) 
-    4. Jellyfish K-mers for estimating genome size for genomic data for Etna-2 (Pacbio HiFi long reads)
-    5. Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/Softwares: flye, hifiasm, LJA and trinity.
+
+1. FastQC quality control on raw reads for genomic data for Etna-2 (Pacbio HiFi long reads) and for transcriptomic data (Illumina paired end short reads)
+
+2. Optional: FastP trimming only for transcriptomic data (Illumina paired end short reads) and not for genomic data for Etna-2 (Pacbio HiFi long reads) 
+
+3. Optional: FastQC on trimmed Reads only for transcriptomic data (Illumina paired end short reads) and not for genomic data for Etna-2 (Pacbio HiFi long reads)
+
+4. Jellyfish K-mers for estimating genome size for genomic data for Etna-2 (Pacbio HiFi long reads)
+
+5. Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/Softwares: flye, hifiasm, LJA and trinity.
     
 
 ### Detailed Workflow
@@ -102,7 +111,7 @@ Since we had two different datasets: Genomic data for Etna-2 (Pacbio HiFi long r
     Trinity:
      - Used container/apptainer: `trinity_2.15.2.sif` (trinity version 2.15.2)
 
-    - Used script: `05a_trinity_assembly.sh ` 
+    - Used script: `05b_trinity_assembly.sh ` 
 
 ### Scripts folder structure
 ```bash
@@ -115,6 +124,9 @@ scripts/
 ├── 05a_flye_assembly.sh                   # Script for
 ├── 05a_hifiasm_assembly.sh                # Script for
 ├── 05a_LJA_assembly.sh                    # Script for                     
-├── 05a_trinity_assembly.sh                # Script for
-├──
-├──
+├── 05b_trinity_assembly.sh                # Script for
+├── 06_quality_BUSCO_assembly.sh           # Script for
+├── 06_quality_merqury_assembly.sh         # Script for
+├── 06_quality_QUAST_assembly.sh           # Script for
+├── 06_quality_merqury_assembly.sh         # Script for
+├── 07_nucmer_and_mummer.sh                # Script for
