@@ -13,7 +13,7 @@
 READS_DIR="/data/users/mkummer/assembly_annotation_course/input"
 FASTQ_FILE="/data/users/mkummer/assembly_annotation_course/input/ERR11437333.fastq.gz"
 RESULTS_DIR="/data/users/mkummer/assembly_annotation_course/output/jellyfish_kmer/Etna-2"
-SIF_PATH="/containers/apptainer/jellyfish-2.2.6--0.sif"
+SIF_PATH="/containers/apptainer/§"
 
 #Ensure output directory exists
 mkdir -p "$RESULTS_DIR"
