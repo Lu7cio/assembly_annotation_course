@@ -1,14 +1,14 @@
-## Author
-Mario Kummer
-
-## Course
+# Course
 473637-HS2026-0: Genome and Transcriptome Assembly, Autumn Semester 2025
 
 ## University
 University of Bern
 
-# Group & Species:
-Group 3 & Species Etna-2
+## Author
+Mario Kummer
+
+## Species & Group:
+Species Etna-2 & Group 3 
 
 ## Description
 In this Course/Project the goal was
