@@ -9,23 +9,26 @@
 #SBATCH --error=/data/users/mkummer/assembly_annotation_course/logs/hifiasm_assembly/Etna-2/hifiasm_assembly_error_%j.e
 
 
-#Define raw data path, container path and output directory
+# Define raw data path, container path and output directory
 READS_DIR="/data/users/mkummer/assembly_annotation_course/input"
 FASTQ_FILE="/data/users/mkummer/assembly_annotation_course/input/ERR11437333.fastq.gz"
-RESULTS_DIR="/data/users/mkummer/assembly_annotation_course/output/hifiasm_assembly/Etna-2"
+RESULTS_DIR="/data/users/mkummer/assembly_annotation_course/output/hifiasm_assembly"
 SIF_PATH="/containers/apptainer/hifiasm_0.25.0.sif"
+PREFIX="$RESULTS_DIR/Etna-2"
 
-#Ensure output directory exists
+# Ensure output directory exists
 mkdir -p "$RESULTS_DIR"
 
-#Run hifiasm assembly on the FASTQ file
+# Run hifiasm assembly on the FASTQ file
 apptainer exec \
   --bind "$READS_DIR":"$READS_DIR" \
   --bind "$RESULTS_DIR":"$RESULTS_DIR" \
   --bind "/data":"/data" \
   "$SIF_PATH" hifiasm -t 16 \
-  -o "$RESULTS_DIR" \
+  -o "$PREFIX" \
   "$FASTQ_FILE"
 
 # Convert the GFA assembly to FASTA
-awk '/^S/{print ">" $2; print $3}' "$RESULTS_DIR/etna2.bp.p_ctg.gfa" > "$RESULTS_DIR/etna2.bp.p_ctg.fa"
+awk '/^S/{print ">" $2; print $3}' \
+  "${PREFIX}.bp.p_ctg.gfa" > "${PREFIX}.bp.p_ctg.fa"
+
