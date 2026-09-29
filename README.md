@@ -1,17 +1,22 @@
 # Course
 473637-HS2026-0: Genome and Transcriptome Assembly, Autumn Semester 2025
 
+
 ## University
 University of Bern
+
 
 ## Author
 Mario Kummer
 
+
 ## Species & Group:
 Species Etna-2 & Group 3 
 
+
 ## Description
 In this Course/Project the goal was
+
 
 ## Software & Tool versions
 All analyses were performed using fixed software versions. See below for full version details.
@@ -30,6 +35,8 @@ All analyses were performed using fixed software versions. See below for full ve
 | QUAST                      | 5.2.0   |
 | nucmer                     |         |
 | mummer                     |         |
+
+
 ## Workflow of analysis:
 
 ### Workflow steps Summary:
@@ -43,11 +50,17 @@ For running the bash scripts on the HPC cluster (With SLURM) the command ```bash
 
 4. Jellyfish K-mers for estimating genome size for genomic data for Etna-2 (Pacbio HiFi long reads)
 
-5. Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/Softwares: flye, hifiasm, LJA and trinity.
+5. Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/Softwares: flye, hifiasm, LJA and GEnome assembly with transcriptomic data (Illumina paired end short reads) with Trinity.
+
+6. Quality assessment of the assemblies with different approaches/Softwares: BUSCO, merqury and QUAST.
+
+7. Nucmer and Mummer for comparing the assemblies with each other and with the reference genome of Etna-2.
     
 
 ### Detailed Workflow
-Since we had two different datasets: Genomic data for Etna-2 (Pacbio HiFi long reads) & transcriptomic data (Illumina paired end short reads) the steps are additionally numerator with a and b to specify on which data the analysis was performed on. a: Genomic data for Etna-2 (Pacbio HiFi long reads)  & b: transcriptomic data (Illumina paired end short reads).
+Since we had two different datasets: Genomic data for Etna-2 (Pacbio HiFi long reads) & transcriptomic data (Illumina paired end short reads) the steps are additionally numerator with a and b to specify on which data the analysis was performed on. 
+    - a: Genomic data for Etna-2 (Pacbio HiFi long reads) 
+    - b: transcriptomic data (Illumina paired end short reads).
 
 1a. FastQC quality control on raw reads of genomic data for Etna-2 (Pacbio HiFi long reads):
 
@@ -89,29 +102,63 @@ Since we had two different datasets: Genomic data for Etna-2 (Pacbio HiFi long r
 
     - Used script: `04a_jellyfish_k-mer.sh` 
 
-5a. Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/softwares: flye, hifiasm, LJA and trinity.
+5a. Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/softwares: flye, hifiasm and LJA.
 
     Every approach was run on the raw *fastq* files of genomic data for Etna-2 (Pacbio HiFi long reads)
+
 
     Flye:
     - Used container/apptainer: `flye_2.9.5.sif` (flye version 2.9.5)
 
     - Used script: `05a_flye_assembly.sh ` 
 
+
     Hifiasm:
     - Used container/apptainer: `hifiasm_0.25.0.sif` (hifiasm version 0.25.0)
 
     - Used script: `05a_hifiasm_assembly.sh` 
     
+
     LJA:
     - Used container/apptainer: `lja-0.2.sif` (LJA version 0.2)
 
     - Used script: `05a_LJA_assembly.sh ` 
     
+
+5b. Transcriptome assembly for transcriptomic data (Illumina paired end short reads) with Trinity.
+    
     Trinity:
      - Used container/apptainer: `trinity_2.15.2.sif` (trinity version 2.15.2)
 
     - Used script: `05b_trinity_assembly.sh ` 
+
+6. Quality assessment of the assemblies with different approaches/softwares: BUSCO, merqury and QUAST.
+
+
+    BUSCO:
+    - Used container/apptainer: `busco-5.7.1.sif` (BUSCO version 5.7.1)
+
+    - Used script: `06_quality_BUSCO_assembly.sh ` 
+
+
+    QUAST:
+    - Used container/apptainer: `quast-5.2.0.sif` (QUAST version 5.2.0)
+
+    - Used script: `06_quality_QUAST_assembly.sh `
+
+
+    merqury:
+    - Used container/apptainer: `merqury-1.3.sif` (merqury version 1.3)
+
+    - Used script: `06_quality_merqury_assembly.sh ` 
+
+7. Nucmer and Mummer for comparing the assemblies with each other and with the reference genome of Etna-2.
+
+    Nucmer:
+    - Used container/apptainer: `mummer4_gnuplot.sif` (Nucmer version ?)
+
+    - Used script: `07_nucmer_and_mummer.sh `
+
 
 ### Scripts folder structure
 ```bash
