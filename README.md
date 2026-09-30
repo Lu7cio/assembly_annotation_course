@@ -1,5 +1,5 @@
 # Course
-473637-HS2026-0: Genome and Transcriptome Assembly, Autumn Semester 2025
+Genome and Transcriptome Assembly, Autumn Semester 2026
 
 
 ## University
@@ -10,31 +10,32 @@ University of Bern
 Mario Kummer
 
 
-## Species & Group:
-Species Etna-2 & Group 3 
+## Species & Accession & Group:
+Species:    Arabidopsis thaliana 
+Accession:  Etna-2 
+Group:      3 
 
 
 ## Description
-In this Course/Project the goal was
-
+In this Course/Project the goal was to de novo assemble the genome and trasncriptome form the species Arabidopsis thaliana, accession Etna-2. The genome was sequenced with Pacbio HiFi long reads and the transcriptome with Illumina paired end short reads. The goal of this course was to assemble the genome and transcriptome with different approaches/Softwares and to compare the assemblies with each other and with the reference genome of Etna-2. The quality of the assemblies was assessed with different approaches/Softwares. 
 
 ## Software & Tool versions
 All analyses were performed using fixed software versions. See below for full version details.
 
-| Tool / Software            | Version |
-|----------------------------|---------|
-| FastQC                     | 0.12.1  |
-| fastp                      | 24.1    |
-| Jellyfish                  | 2.2.6   |
-| flye                       | 2.9.5   |
-| hifiasm                    | 0.25.0  |
-| LJA                        | 0.2     |
-| trinity                    | 2.15.2  |
-| busco                      | 5.7.1   |
-| merqury                    | 1.3     |
-| QUAST                      | 5.2.0   |
-| nucmer                     |         |
-| mummer                     |         |
+| Tool / Software            | Version  |
+|----------------------------|----------|
+| FastQC                     | 0.12.1   |
+| fastp                      | 24.1     |
+| Jellyfish                  | 2.2.6    |
+| flye                       | 2.9.5    |
+| hifiasm                    | 0.25.0   |
+| LJA                        | 0.2      |
+| trinity                    | 2.15.2   |
+| busco                      | 5.7.1    |
+| merqury                    | 1.3      |
+| QUAST                      | 5.2.0    | 
+| nucmer                     |          |
+| mummer                     | 4.0.0rc1 |
 
 
 ## Workflow of analysis:
@@ -59,8 +60,13 @@ For running the bash scripts on the HPC cluster (With SLURM) the command ```bash
 
 ### Detailed Workflow
 Since we had two different datasets: Genomic data for Etna-2 (Pacbio HiFi long reads) & transcriptomic data (Illumina paired end short reads) the steps are additionally numerator with a and b to specify on which data the analysis was performed on. 
-    - a: Genomic data for Etna-2 (Pacbio HiFi long reads) 
-    - b: transcriptomic data (Illumina paired end short reads).
+
+ - a: Genomic data for Etna-2 (Pacbio HiFi long reads) 
+ - b: transcriptomic data (Illumina paired end short reads).
+    
+The specific parameters used for each analysiis are specified in the bash scripts. The workflow steps are as follows:
+
+   
 
 1a. FastQC quality control on raw reads of genomic data for Etna-2 (Pacbio HiFi long reads):
 
@@ -155,7 +161,7 @@ Since we had two different datasets: Genomic data for Etna-2 (Pacbio HiFi long r
 7. Nucmer and Mummer for comparing the assemblies with each other and with the reference genome of Etna-2.
 
     Nucmer:
-    - Used container/apptainer: `mummer4_gnuplot.sif` (Nucmer version ?)
+    - Used container/apptainer: `mummer4_gnuplot.sif` (mummer version 4.0.0rc1)
 
     - Used script: `07_nucmer_and_mummer.sh `
 
