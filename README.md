@@ -34,7 +34,7 @@ All analyses were performed using fixed software versions. See below for full ve
 | busco                      | 5.7.1    |
 | merqury                    | 1.3      |
 | QUAST                      | 5.2.0    | 
-| nucmer                     |          |
+| nucmer                     | 4.0.0rc1 |
 | mummer                     | 4.0.0rc1 |
 
 
