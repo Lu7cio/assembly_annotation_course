@@ -1,59 +1,71 @@
 #!/usr/bin/env bash
 
-#SBATCH --cpus-per-task=16
-#SBATCH --mem=64G
-#SBATCH --time=1-00:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=32G
+#SBATCH --time=06:00:00
 #SBATCH --partition=pibu_el8
 #SBATCH --job-name=merqury_assemblies
-#SBATCH --output=/data/users/mkummer/assembly_annotation_course/logs/merqury_assemblies_%j.o
-#SBATCH --error=/data/users/mkummer/assembly_annotation_course/logs/merqury_assemblies_%j.e
+#SBATCH --output=/data/users/mkummer/assembly_annotation_course/logs/merqury/merqury_assemblies_%j.o
+#SBATCH --error=/data/users/mkummer/assembly_annotation_course/logs/merqury/merqury_assemblies_%j.e
 
-#Define raw data path, container path and output directory
+
+# Define raw data path, container path and output directory
 BASE_DIR="/data/users/mkummer/assembly_annotation_course"
 OUTPUT_DIR="$BASE_DIR/output"
-BUSCO_DIR="$OUTPUT_DIR/BUSCO"
+MERQURY_DIR="$OUTPUT_DIR/merqury"
 SIF_PATH="/containers/apptainer/merqury_1.3.sif"
+export MERQURY="/usr/local/share/merqury"
+READS="$BASE_DIR/input/raw_data/Etna-2/ERR11437333.fastq.gz"
+READ_DB="$MERQURY_DIR/Etna-2.meryl"
 
-#Ensure output directory exists
-mkdir -p "$BUSCO_DIR"
+# Ensure output directory exists
+mkdir -p "$MERQURY_DIR"
 
-#Define assembly names and corresponding file paths
+# Define assembly names and corresponding file paths
 assembly_names=(
   "flye"
   "hifiasm"
   "lja"
 )
 
-#Define assembly file paths corresponding to the assembly names
+# Define assembly file paths corresponding to the assembly names
 assembly_files=(
   "$OUTPUT_DIR/flye_assembly/Etna-2/assembly.fasta"
-  "$OUTPUT_DIR/hifiasm_assembly/Etna-2/etna2.bp.p_ctg.fa"
-  "$OUTPUT_DIR/lja_assembly/Etna-2/k501/disjointigs.fasta"
+  "$OUTPUT_DIR/hifiasm_assembly/Etna-2.bp.p_ctg.fa"
+  "$OUTPUT_DIR/lja_assembly/Etna-2/assembly.fasta"
 )
 
-#Run BUSCO for each assembly
+# Check the read input before starting the container jobs.
+if [[ ! -s "$READS" ]]; then
+  echo "ERROR: Read file not found: $READS" >&2
+  exit 1
+fi
+
+echo "Preparing meryl database from: $READS"
+if [[ ! -d "$READ_DB" ]]; then
+  apptainer exec \
+    --bind "$BASE_DIR":"$BASE_DIR" \
+    "$SIF_PATH" meryl count k=31 "$READS" output "$READ_DB"
+else
+  echo "Using existing meryl database: $READ_DB"
+fi
+
+# Run Merqury for each assembly.
 for index in "${!assembly_names[@]}"; do
   name="${assembly_names[$index]}"
   assembly="${assembly_files[$index]}"
-  mode="genome"
-
-  if [[ "$name" == "trinity" ]]; then
-    mode="transcriptome"
-  fi
 
   if [[ ! -s "$assembly" ]]; then
     echo "WARN: Assembly for $name not found, skipping: $assembly" >&2
     continue
   fi
 
-  echo "Running BUSCO for $name: $assembly"
+  echo "Running Merqury for $name: $assembly"
   apptainer exec \
     --bind "$BASE_DIR":"$BASE_DIR" \
-    "$SIF_PATH" busco \
-      --input "$assembly" \
-      --output "$name" \
-      --out_path "$BUSCO_DIR" \
-      --lineage_dataset "brassicales_odb10" \
-      --mode "$mode" \
-      --cpu 16
+    --env "MERQURY=$MERQURY" \
+    "$SIF_PATH" "$MERQURY/merqury.sh" \
+      "$READ_DB" \
+      "$assembly" \
+      "$MERQURY_DIR/$name"
 done
