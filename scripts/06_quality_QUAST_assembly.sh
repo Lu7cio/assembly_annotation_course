@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 #SBATCH --cpus-per-task=16
-#SBATCH --mem=64G
-#SBATCH --time=1-00:00:00
+#SBATCH --mem=32G
+#SBATCH --time=12:00:00
 #SBATCH --partition=pibu_el8
 #SBATCH --job-name=quast_assemblies
 #SBATCH --output=/data/users/mkummer/assembly_annotation_course/logs/quast_assembly/quast_assemblies_%j.o
@@ -22,6 +22,7 @@ mkdir -p "$QUAST_DIR/with_reference" "$QUAST_DIR/without_reference"
 
 # Define assembly names and corresponding file paths
 assembly_names=(
+  
   "flye"
   "hifiasm"
   "lja"
@@ -31,7 +32,7 @@ assembly_names=(
 assembly_files=(
   "$OUTPUT_DIR/flye_assembly/Etna-2/assembly.fasta"
   "$OUTPUT_DIR/hifiasm_assembly/Etna-2.bp.p_ctg.fa"
-  "$OUTPUT_DIR/lja_assembly/Etna-2/k501/disjointigs.fasta"
+  "$OUTPUT_DIR/lja_assembly/Etna-2/assembly.fasta"
 )
 
 # Run QUAST once with the reference and once without it.
