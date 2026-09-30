@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=32G
-#SBATCH --time=06:00:00
-#SBATCH --partition=pibu_el8
+#SBATCH --mem=16G
+#SBATCH --time=02:00:00
+#SBATCH --partition=pshort_el8
 #SBATCH --job-name=merqury_assemblies
 #SBATCH --output=/data/users/mkummer/assembly_annotation_course/logs/merqury/merqury_assemblies_%j.o
 #SBATCH --error=/data/users/mkummer/assembly_annotation_course/logs/merqury/merqury_assemblies_%j.e
-
 
 # Define raw data path, container path and output directory
 BASE_DIR="/data/users/mkummer/assembly_annotation_course"
@@ -17,6 +16,7 @@ SIF_PATH="/containers/apptainer/merqury_1.3.sif"
 export MERQURY="/usr/local/share/merqury"
 READS="$BASE_DIR/input/raw_data/Etna-2/ERR11437333.fastq.gz"
 READ_DB="$MERQURY_DIR/Etna-2.meryl"
+READS_UNCOMPRESSED="$MERQURY_DIR/Etna-2.fastq"
 
 # Ensure output directory exists
 mkdir -p "$MERQURY_DIR"
@@ -42,15 +42,17 @@ if [[ ! -s "$READS" ]]; then
 fi
 
 echo "Preparing meryl database from: $READS"
-if [[ ! -d "$READ_DB" ]]; then
-  apptainer exec \
-    --bind "$BASE_DIR":"$BASE_DIR" \
-    "$SIF_PATH" meryl count k=31 "$READS" output "$READ_DB"
-else
-  echo "Using existing meryl database: $READ_DB"
-fi
+rm -rf "$READ_DB"
+echo "Decompressing reads for meryl: $READS_UNCOMPRESSED"
+gzip -dc "$READS" > "$READS_UNCOMPRESSED"
+apptainer exec \
+  --bind "$BASE_DIR":"$BASE_DIR" \
+  --bind "/data":"/data" \
+  "$SIF_PATH" meryl count k=31 "$READS_UNCOMPRESSED" output "$READ_DB"
+rm -f "$READS_UNCOMPRESSED"
 
 # Run Merqury for each assembly.
+cd "$MERQURY_DIR"
 for index in "${!assembly_names[@]}"; do
   name="${assembly_names[$index]}"
   assembly="${assembly_files[$index]}"
@@ -63,9 +65,10 @@ for index in "${!assembly_names[@]}"; do
   echo "Running Merqury for $name: $assembly"
   apptainer exec \
     --bind "$BASE_DIR":"$BASE_DIR" \
+    --bind "/data":"/data" \
     --env "MERQURY=$MERQURY" \
     "$SIF_PATH" "$MERQURY/merqury.sh" \
       "$READ_DB" \
       "$assembly" \
-      "$MERQURY_DIR/$name"
+      "$name"
 done
