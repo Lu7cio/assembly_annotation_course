@@ -41,7 +41,7 @@ All analyses were performed using fixed software versions. See below for full ve
 ## Workflow of analysis:
 
 ### Workflow steps Summary:
-For running the bash scripts on the HPC cluster (With SLURM) the command ```bash sbatch my_script.sh```  followed by the name of the desired script was used.
+For running the bash scripts on the HPC cluster (With SLURM) the command ```sbatch my_script.sh```  followed by the name of the desired script was used.
 
 1. FastQC quality control on raw reads for genomic data for Etna-2 (Pacbio HiFi long reads) and for transcriptomic data (Illumina paired end short reads)
 
@@ -67,7 +67,6 @@ Since we had two different datasets: Genomic data for Etna-2 (Pacbio HiFi long r
 The specific parameters used for each analysiis are specified in the bash scripts. The workflow steps are as follows:
 
    
-
 1a. FastQC quality control on raw reads of genomic data for Etna-2 (Pacbio HiFi long reads):
 
     The FastQC was run on the *fastq* files of the raw  data.
@@ -169,17 +168,17 @@ The specific parameters used for each analysiis are specified in the bash script
 ### Scripts folder structure
 ```bash
 scripts/
-├── 01a_fastQC_raw_reads.sh                # Script for
-├── 01b_fastQC_raw_reads.sh                # Script for
-├── 02b_fastP_raw_reads.sh                 # Script for       
-├── 03b_fastQC_trimmed_reads.sh            # Script for
-├── 04a_jellyfish_k-mer.sh                 # Script for
-├── 05a_flye_assembly.sh                   # Script for
-├── 05a_hifiasm_assembly.sh                # Script for
-├── 05a_LJA_assembly.sh                    # Script for                     
-├── 05b_trinity_assembly.sh                # Script for
-├── 06_quality_BUSCO_assembly.sh           # Script for
-├── 06_quality_merqury_assembly.sh         # Script for
-├── 06_quality_QUAST_assembly.sh           # Script for
-├── 06_quality_merqury_assembly.sh         # Script for
-├── 07_nucmer_and_mummer.sh                # Script for
+├── 01a_fastQC_raw_reads.sh                
+├── 01b_fastQC_raw_reads.sh                
+├── 02b_fastP_raw_reads.sh                       
+├── 03b_fastQC_trimmed_reads.sh            
+├── 04a_jellyfish_k-mer.sh                 
+├── 05a_flye_assembly.sh                   
+├── 05a_hifiasm_assembly.sh                
+├── 05a_LJA_assembly.sh                                        
+├── 05b_trinity_assembly.sh                
+├── 06_quality_BUSCO_assembly.sh           
+├── 06_quality_merqury_assembly.sh         
+├── 06_quality_QUAST_assembly.sh           
+├── 06_quality_merqury_assembly.sh         
+├── 07_nucmer_and_mummer.sh                
