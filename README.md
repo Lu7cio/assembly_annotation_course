@@ -24,6 +24,7 @@ In this Course/Project the goal was to de novo assemble the genome and trasncrip
 ## Software & Tool versions
 All analyses were performed using fixed software versions. See below for full version details.
 
+|----------------------------|----------|
 | Tool / Software            | Version  |
 |----------------------------|----------|
 | FastQC                     | 0.12.1   |
@@ -37,7 +38,7 @@ All analyses were performed using fixed software versions. See below for full ve
 | merqury                    | 1.3      |
 | QUAST                      | 5.2.0    | 
 | nucmer/mummer              | 4.0.0rc1 |
-
+|----------------------------|----------|
 
 ## Workflow of analysis:
 
