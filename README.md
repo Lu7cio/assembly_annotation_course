@@ -11,9 +11,11 @@ Mario Kummer
 
 
 ## Species & Accession & Group:
-Species:    Arabidopsis thaliana 
-Accession:  Etna-2 
-Group:      3 
+Species:    Arabidopsis thaliana
+
+Accession:  Etna-2
+
+Group:      3
 
 
 ## Description
@@ -57,6 +59,7 @@ For BUSCO (Run on flye, hifiasm, LJA and Trinity assemblies). For QUAST  (Run on
 
 7. Nucmer and Mummer for comparing the assemblies with each other and with the reference genome of Etna-2.
     
+
 
 ### Detailed Workflow
 Since we had two different datasets: Genomic data for Etna-2 (Pacbio HiFi long reads) & transcriptomic data (Illumina paired end short reads) the steps are additionally numerator with a and b to specify on which data the analysis was performed on. 
@@ -157,25 +160,6 @@ The specific parameters used for each analysis are specified in the bash scripts
 
     - Used script: `06_quality_merqury_assembly.sh ` 
 
-6. Quality assessment of the assemblies with different approaches/softwares: BUSCO, merqury and QUAST.
-
-
-    BUSCO:
-    - Used container/apptainer: `busco-5.7.1.sif` (BUSCO version 5.7.1)
-
-    - Used script: `06_quality_BUSCO_assembly.sh ` 
-
-
-    QUAST:
-    - Used container/apptainer: `quast-5.2.0.sif` (QUAST version 5.2.0)
-
-    - Used script: `06_quality_QUAST_assembly.sh `
-
-
-    merqury:
-    - Used container/apptainer: `merqury-1.3.sif` (merqury version 1.3)
-
-    - Used script: `06_quality_merqury_assembly.sh ` 
 
 7. Nucmer and Mummer for comparing the assemblies with each other and with the reference genome of Etna-2.
 
