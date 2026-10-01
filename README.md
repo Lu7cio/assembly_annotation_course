@@ -17,7 +17,7 @@ Group:      3
 
 
 ## Description
-In this Course/Project the goal was to de novo assemble the genome and trasncriptome form the species Arabidopsis thaliana, accession Etna-2. The genome was sequenced with Pacbio HiFi long reads and the transcriptome with Illumina paired end short reads. The goal of this course was to assemble the genome and transcriptome with different approaches/Softwares and to compare the assemblies with each other and with the reference genome of Etna-2. The quality of the assemblies was assessed with different approaches/Softwares. 
+In this Course/Project the goal was to de novo assemble the genome and trasncriptome form the species Arabidopsis thaliana, accession Etna-2. The genome was sequenced with Pacbio HiFi long reads and the transcriptome with Illumina paired end short reads. For this purpose, we assembled the genome and transcriptome with different approaches/Softwares and to compare the assemblies with each other and with the reference genome of Etna-2. The quality of the assemblies was assessed with different approaches/Softwares. 
 
 ## Software & Tool versions
 All analyses were performed using fixed software versions. See below for full version details.
@@ -34,8 +34,7 @@ All analyses were performed using fixed software versions. See below for full ve
 | busco                      | 5.7.1    |
 | merqury                    | 1.3      |
 | QUAST                      | 5.2.0    | 
-| nucmer                     | 4.0.0rc1 |
-| mummer                     | 4.0.0rc1 |
+| nucmer/mummer              | 4.0.0rc1 |
 
 
 ## Workflow of analysis:
@@ -51,9 +50,10 @@ For running the bash scripts on the HPC cluster (With SLURM) the command ```sbat
 
 4. Jellyfish K-mers for estimating genome size for genomic data for Etna-2 (Pacbio HiFi long reads)
 
-5. Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/Softwares: flye, hifiasm, LJA and GEnome assembly with transcriptomic data (Illumina paired end short reads) with Trinity.
+5. Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/Softwares (flye, hifiasm, LJA) and transcriptome assembly with transcriptomic data (Illumina paired end short reads) with Trinity.
 
 6. Quality assessment of the assemblies with different approaches/Softwares: BUSCO, merqury and QUAST.
+For BUSCO (Run on flye, hifiasm, LJA and Trinity assemblies). For QUAST  (Run on flye, hifiasm and LJA  assemblies). For merqury  (Run on flye, hifiasm and assemblies).
 
 7. Nucmer and Mummer for comparing the assemblies with each other and with the reference genome of Etna-2.
     
@@ -64,10 +64,10 @@ Since we had two different datasets: Genomic data for Etna-2 (Pacbio HiFi long r
  - a: Genomic data for Etna-2 (Pacbio HiFi long reads) 
  - b: transcriptomic data (Illumina paired end short reads).
     
-The specific parameters used for each analysiis are specified in the bash scripts. The workflow steps are as follows:
+The specific parameters used for each analysis are specified in the bash scripts. The workflow steps are as follows:
 
    
-1a. FastQC quality control on raw reads of genomic data for Etna-2 (Pacbio HiFi long reads):
+1. a) FastQC quality control on raw reads of genomic data for Etna-2 (Pacbio HiFi long reads):
 
     The FastQC was run on the *fastq* files of the raw  data.
 
@@ -75,7 +75,7 @@ The specific parameters used for each analysiis are specified in the bash script
 
     - Used script: `01a_fastQC_raw_reads.sh` 
 
-1b. FastQC quality control on raw reads of transcriptomic data (Illumina paired end short reads):
+1. b) FastQC quality control on raw reads of transcriptomic data (Illumina paired end short reads):
 
     The FastQC was run on the *fastq* files of the raw  data.
 
@@ -83,23 +83,23 @@ The specific parameters used for each analysiis are specified in the bash script
 
     - Used script: `01b_fastQC_raw_reads.sh` 
 
-2b. FastP trimming of the raw reads of transcriptomic data (Illumina paired end short reads):
+2. b) FastP trimming of the raw reads of transcriptomic data (Illumina paired end short reads):
 
     The FastQC was run on the *fastq* files of the raw  data.
    
     - Used container/apptainer: `fastp_0.24.1.sif` (FastP version 0.24.1)
 
-    - Used script: 2b_fastP_raw_reads.sh 
+    - Used script: `2b_fastP_raw_reads.sh` 
 
-3b. FastQC quality control on the trimmed reads of transcriptomic data (Illumina paired end short reads):
+3. b) FastQC quality control on the trimmed reads of transcriptomic data (Illumina paired end short reads):
 
     The FastQC was run on the *fastq* files of the trimmed read.
 
     - Used container/apptainer: `fastqc-0.12.1.sif` (FastQC version 0.12.1)
 
-    - Used script: 3b_fastQC_trimmed_reads.sh   
+    - Used script: `3b_fastQC_trimmed_reads.sh`   
 
-4a. Jellyfish K-mers for estimating genome size for enomic data for Etna-2 (Pacbio HiFi long reads) :
+4. a) Jellyfish K-mers for estimating genome size for enomic data for Etna-2 (Pacbio HiFi long reads) :
 
     The Jellyfish was run on the raw *fastq* files of genomic data for Etna-2 (Pacbio HiFi long reads)
 
@@ -107,7 +107,7 @@ The specific parameters used for each analysiis are specified in the bash script
 
     - Used script: `04a_jellyfish_k-mer.sh` 
 
-5a. Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/softwares: flye, hifiasm and LJA.
+5. a) Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/softwares: flye, hifiasm and LJA.
 
     Every approach was run on the raw *fastq* files of genomic data for Etna-2 (Pacbio HiFi long reads)
 
@@ -130,12 +130,32 @@ The specific parameters used for each analysiis are specified in the bash script
     - Used script: `05a_LJA_assembly.sh ` 
     
 
-5b. Transcriptome assembly for transcriptomic data (Illumina paired end short reads) with Trinity.
+5. b) Transcriptome assembly for transcriptomic data (Illumina paired end short reads) with Trinity.
     
     Trinity:
      - Used container/apptainer: `trinity_2.15.2.sif` (trinity version 2.15.2)
 
     - Used script: `05b_trinity_assembly.sh ` 
+
+6. Quality assessment of the assemblies with different approaches/softwares: BUSCO, merqury and QUAST.
+
+
+    BUSCO:
+    - Used container/apptainer: `busco-5.7.1.sif` (BUSCO version 5.7.1)
+
+    - Used script: `06_quality_BUSCO_assembly.sh ` 
+
+
+    QUAST:
+    - Used container/apptainer: `quast-5.2.0.sif` (QUAST version 5.2.0)
+
+    - Used script: `06_quality_QUAST_assembly.sh `
+
+
+    merqury:
+    - Used container/apptainer: `merqury-1.3.sif` (merqury version 1.3)
+
+    - Used script: `06_quality_merqury_assembly.sh ` 
 
 6. Quality assessment of the assemblies with different approaches/softwares: BUSCO, merqury and QUAST.
 
