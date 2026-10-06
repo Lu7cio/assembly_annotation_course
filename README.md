@@ -65,13 +65,13 @@ For BUSCO (Run on flye, hifiasm, LJA and Trinity assemblies). For QUAST  (Run on
 ### Detailed Workflow
 Since we had two different datasets: Genomic data for Etna-2 (Pacbio HiFi long reads) & transcriptomic data (Illumina paired end short reads) the steps are additionally numerator with a and b to specify on which data the analysis was performed on. 
 
- - a: Genomic data for Etna-2 (Pacbio HiFi long reads) 
- - b: transcriptomic data (Illumina paired end short reads).
+- a: Genomic data for Etna-2 (Pacbio HiFi long reads)
+- b: transcriptomic data (Illumina paired end short reads).
     
 The specific parameters used for each analysis are specified in the bash scripts. The workflow steps are as follows:
 
    
-1. a) FastQC quality control on raw reads of genomic data for Etna-2 (Pacbio HiFi long reads):
+- **1a)** FastQC quality control on raw reads of genomic data for Etna-2 (Pacbio HiFi long reads):
 
     The FastQC was run on the *fastq* files of the raw  data.
 
@@ -79,7 +79,7 @@ The specific parameters used for each analysis are specified in the bash scripts
 
     - Used script: `01a_fastQC_raw_reads.sh` 
 
-1. b) FastQC quality control on raw reads of transcriptomic data (Illumina paired end short reads):
+- **1b)** FastQC quality control on raw reads of transcriptomic data (Illumina paired end short reads):
 
     The FastQC was run on the *fastq* files of the raw  data.
 
@@ -87,7 +87,7 @@ The specific parameters used for each analysis are specified in the bash scripts
 
     - Used script: `01b_fastQC_raw_reads.sh` 
 
-2. b) FastP trimming of the raw reads of transcriptomic data (Illumina paired end short reads):
+- **2b)** FastP trimming of the raw reads of transcriptomic data (Illumina paired end short reads):
 
     The FastQC was run on the *fastq* files of the raw  data.
    
@@ -95,7 +95,7 @@ The specific parameters used for each analysis are specified in the bash scripts
 
     - Used script: `2b_fastP_raw_reads.sh` 
 
-3. b) FastQC quality control on the trimmed reads of transcriptomic data (Illumina paired end short reads):
+- **3b)** FastQC quality control on the trimmed reads of transcriptomic data (Illumina paired end short reads):
 
     The FastQC was run on the *fastq* files of the trimmed read.
 
@@ -103,7 +103,7 @@ The specific parameters used for each analysis are specified in the bash scripts
 
     - Used script: `3b_fastQC_trimmed_reads.sh`   
 
-4. a) Jellyfish K-mers for estimating genome size for enomic data for Etna-2 (Pacbio HiFi long reads) :
+- **4a)** Jellyfish K-mers for estimating genome size for enomic data for Etna-2 (Pacbio HiFi long reads) :
 
     The Jellyfish was run on the raw *fastq* files of genomic data for Etna-2 (Pacbio HiFi long reads)
 
@@ -111,7 +111,7 @@ The specific parameters used for each analysis are specified in the bash scripts
 
     - Used script: `04a_jellyfish_k-mer.sh` 
 
-5. a) Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/softwares: flye, hifiasm and LJA.
+- **5a)** Genome assembly for genomic data for Etna-2 (Pacbio HiFi long reads) with different approaches/softwares: flye, hifiasm and LJA.
 
     Every approach was run on the raw *fastq* files of genomic data for Etna-2 (Pacbio HiFi long reads)
 
@@ -134,14 +134,14 @@ The specific parameters used for each analysis are specified in the bash scripts
     - Used script: `05a_LJA_assembly.sh ` 
     
 
-5. b) Transcriptome assembly for transcriptomic data (Illumina paired end short reads) with Trinity.
+- **5b)** Transcriptome assembly for transcriptomic data (Illumina paired end short reads) with Trinity.
     
     Trinity:
      - Used container/apptainer: `trinity_2.15.2.sif` (trinity version 2.15.2)
 
     - Used script: `05b_trinity_assembly.sh ` 
 
-6. Quality assessment of the assemblies with different approaches/softwares: BUSCO, merqury and QUAST.
+- **6)** Quality assessment of the assemblies with different approaches/softwares: BUSCO, merqury and QUAST.
 
 
     BUSCO:
@@ -162,7 +162,7 @@ The specific parameters used for each analysis are specified in the bash scripts
     - Used script: `06_quality_merqury_assembly.sh ` 
 
 
-7. Nucmer and Mummer for comparing the assemblies with each other and with the reference genome of Etna-2.
+- **7)** Nucmer and Mummer for comparing the assemblies with each other and with the reference genome of Etna-2.
 
     Nucmer:
     - Used container/apptainer: `mummer4_gnuplot.sif` (mummer version 4.0.0rc1)
