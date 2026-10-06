@@ -38,7 +38,7 @@ All analyses were performed using fixed software versions. See below for full ve
 | merqury                    | 1.3      |
 | QUAST                      | 5.2.0    | 
 | nucmer/mummer              | 4.0.0rc1 |
-|
+
 
 ## Workflow of analysis:
 
